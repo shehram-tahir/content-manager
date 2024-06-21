@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project uses Context API and Material UI to integrate with Open Source JSON API builder at https://jsonplaceholder.typicode.com/guide/
 
 Run the following commands to run the project:
 
