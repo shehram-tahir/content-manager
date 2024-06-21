@@ -1,6 +1,8 @@
 # Getting Started with Create React App
 
-This project uses Context API and Material UI to integrate with Open Source JSON API builder at https://jsonplaceholder.typicode.com/guide/
+This project is integrated with Open Source JSON API builder at https://jsonplaceholder.typicode.com/guide/ and uses the following:
+1. Context API and Material UI
+2. Defines the steps to containerize and deploy the application to AWS
 
 Run the following commands to run the project:
 
