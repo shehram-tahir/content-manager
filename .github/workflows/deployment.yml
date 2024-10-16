@@ -1,0 +1,38 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up SSH
+        env:  # Set environment variables
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_HOST_VAR: ${{ env.VPS_HOST_VAR }}
+        run: |
+          echo $VPS_SSH_KEY | sed 's/./& /g'
+          echo $VPS_HOST_VAR | sed 's/./& /g'
+          echo 'HELLO' | sed 's/./& /g'
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+      - name: Deploy to VPS
+        env:  # Set environment variables
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USERNAME: ${{ secrets.VPS_USERNAME }}
+        run: |
+          ssh -o StrictHostKeyChecking=no $VPS_USERNAME@$VPS_HOST << 'EOF'
+            echo "Turning off containers."
+            docker compose down
+            cd honey_app && git pull
+            git submodule update --remote --recursive --merge &&
+            git submodule foreach 'git checkout main && git pull origin main'
+            echo "Repository cloned and submodules updated."
+            docker compose up -d
+          EOF
